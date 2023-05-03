@@ -1,5 +1,5 @@
 // Settings:
-const INIT_GRID_SIZE = { cols: 1000, rows: 1000 };
+const INIT_GRID_SIZE = { cols: 25, rows: 20 };
 const INIT_SPEED = 150;
 
 // Constants
