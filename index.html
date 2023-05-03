@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <header class="App-header">
+    <div class="container">
+      <h1>Game of Life</h1>
+    </div>
+  </header>
+
+  <div id="root"></div>
+
+  <footer>
+    <div class="container">
+      <div class="actions">
+        <button class='clear' id='clear'>
+          Clear
+        </button>
+        <button class='random' id="random">
+          Randomize
+        </button>
+      </div>
+      <div class="controls">
+        <button class="play-button" id="play">Play</button>
+      </div>
+      <div class="stats">
+        <p>Step: <span id="step">0</span></p>
+        <p>Cells alive: <span id="alive">0</span></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+<script src="app.js" type="text/javascript"></script>
+
+</html>

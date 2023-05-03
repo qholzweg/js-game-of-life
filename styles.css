@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Roboto Slab', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  color: #666;
+}
+button:hover {
+  color: #000;
+}
+button:hover .iconify  {
+  color: #000;
+}
+button:disabled {
+  color: #B9B9B9;
+  cursor: default;
+}
+button:disabled .iconify {
+  color: #B9B9B9;
+}
+.iconify {
+  color: #666;
+}
+
+.App-header {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  width: 100%;
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(15px);
+  text-align: center;
+}
+.App-header .container {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  max-width: 776px;
+  margin: 0 auto;
+}
+
+/* GAME */
+.game {
+  position: fixed;
+  top: 100px;
+  left: 0;
+}
+.game-grid {
+  display: grid;
+  background: #B9B9B9;
+  grid-gap: 1px;
+  width: fit-content;
+  border: 1px solid #B9B9B9;
+}
+.game-cell {
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  padding: 1px;
+}
+.game:not(.running) .game-cell {
+  cursor: pointer;
+}
+.game-cell.active:after {
+  content: '';
+  display: block;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(50% 50% at 50% 50%, #C60000 0%, #FF6565 100%);
+}
+
+/* FOOTER */
+footer {
+  position: fixed;
+  z-index: 20;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(15px);
+}
+footer .container {
+  width: 776px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+footer .actions button .iconify {
+  margin-right: 3px;
+}
+footer .actions button {
+  display: block;
+  margin-bottom: 5px;
+}
+footer .stats {
+  text-align: left;
+  width: 150px;
+}
+footer .stats p {
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+button.play-button {
+  border: 1px solid #666;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+/* MODAL */
+.overlay {
+  background-color: rgba(0, 0, 0, .6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 150;
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 640px;
+  margin: auto;
+  padding: 40px 40px 60px;
+  background-color: #fff;
+  border-radius: 10px;
+  z-index: 200;
+  box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+}
+.modalHeader {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.modalHeader h2 {
+  flex-grow: 1;
+}
+.closeButton {
+  position: relative;
+  z-index: 1000;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* FORM */
+fieldset {
+  border: 1px solid #B9B9B9;
+  border-radius: 10px;
+  padding: 1rem 1.2rem 1.2rem;
+  margin-bottom: 2rem;
+}
+input {
+  display: block;
+  border: 1px solid #666;
+  border-radius: 10px;
+  padding: .6rem 1rem;
+}
+.inputGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 0.8rem;
+}
+.inputGroup label {
+  width: 60px
+}
+form button[type=submit] {
+  border: 1px solid #666;
+  border-radius: 50px;
+  padding: 1rem 2rem;
+}
+.radio-toolbar input[type="radio"] {
+  display: none;
+}
+.radio-toolbar label {
+  display: inline-block;
+  border: 1px solid #B9B9B9;
+  border-radius: 20px;
+  padding: 4px 11px;
+  font-family: Arial;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+.radio-toolbar input[type="radio"]:checked+label {
+  background-color: #eee;
+}
+.text-gray {
+  color: #666;
+}

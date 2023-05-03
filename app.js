@@ -38,17 +38,18 @@ let containerSize,
 calcSizes();
 calcVisibleZone();
 
-//UI
-//render
-let gridNode = createGridNode(visibleGrid);
+// UI
+// render
+let gridNode = createGameNode(visibleGrid);
 mount(gridNode);
 
-//Buttons
+// Buttons
 playButton.addEventListener('click', () => togglePlay());
 randomButton.addEventListener('click', () => {
   stop();
   grid = generateRandomTiles(INIT_GRID_SIZE);
   paintNewGrid();
+  countCells();
 });
 clearButton.addEventListener('click', () => {
   stop();
@@ -64,7 +65,7 @@ setInterval(() => runSimulation(), INIT_SPEED);
 
 // Functions
 
-//runs the game, computing grid for the next generation
+// runs the game, computing grid for the next generation
 function runSimulation() {
   if (!running) {
     return;
@@ -78,7 +79,7 @@ function runSimulation() {
 
       operations.forEach(([x, y]) => {
 
-        //calculate neighbors 
+        // calculate neighbors 
         const newI = i + x < 0 ?
           gridSize.rows - 1 :
           i + x > gridSize.rows - 1 ?
@@ -94,7 +95,7 @@ function runSimulation() {
         }
       });
 
-      //apply rules for next generation
+      // apply rules for next generation
       if (neighbors < 2 || neighbors > 3) {
         gridCopy[i][j] = 0;
       } else if (grid[i][j] === 0 && neighbors === 3) {
@@ -108,12 +109,6 @@ function runSimulation() {
   countCells();
 }
 
-// gets new positions of cells and calls repaint grid func
-function paintNewGrid() {
-  const oldGrid = visibleGrid;
-  calcVisibleZone();
-  repaintGrid(oldGrid, visibleGrid);
-}
 function togglePlay() {
   running = !running;
   playButton.innerText = running ? 'Stop' : 'Play';
@@ -154,7 +149,7 @@ function calcVisibleZone() {
     x: Math.floor(offset[0] / cellSize) > 0 ? Math.floor(offset[0] / cellSize) : 0,
     y: Math.floor(offset[1] / cellSize) > 0 ? Math.floor(offset[1] / cellSize) : 0
   }
-  visibleGrid = getACtiveZone(grid, gridOffset.x, visibleGridSize.x, gridOffset.y, visibleGridSize.y);
+  visibleGrid = getVisibleZone(grid, gridOffset.x, visibleGridSize.x, gridOffset.y, visibleGridSize.y);
 }
 
 function onScroll() {
@@ -165,7 +160,7 @@ function onScroll() {
 function onResize () {
   calcSizes();
   calcVisibleZone();
-  let gridNode = createGridNode(visibleGrid);
+  let gridNode = createGameNode(visibleGrid);
   mount(gridNode);
 }
 
@@ -185,12 +180,13 @@ function countCells() {
 
 // -----
 // DOM creation functions
-
+// places game in DOM
 function mount(node) {
   document.getElementById('root').replaceWith(node);
   return node;
 };
 
+// activates and deactivates cell in the grid
 function cellClick(i, k) {
   if (!running) {
     grid[i + gridOffset.y][k + gridOffset.x] = grid[i + gridOffset.y][k + gridOffset.x] === 0 ? 1 : 0;
@@ -199,23 +195,28 @@ function cellClick(i, k) {
   }
 }
 
-function createGridNode(grid) {
+// constructs the DOM object for the game
+function createGameNode(grid) {
+  // container of size of the full grid "pushes" scrolls
   let container = document.createElement('div');
   container.id = 'root';
   container.style.width = containerSize.width + 'px';
   container.style.height = containerSize.height + 'px';
 
+  // container for the grid with central horizontal positioning (if the width is less then the viewport width)
   let gameNode = document.createElement('div');
   gameNode.className = 'game';
   gameNode.style.width = viewPort.width + cellSize * 2 + 'px';
   gameNode.style.height = viewPort.width + cellSize * 2 + 'px';
   gameNode.style.left = left + 'px';
 
+  // grid node with grid template rule
   let gridNode = document.createElement('div');
   gridNode.className = "game-grid";
   gridNode.style.gridTemplateColumns = `repeat(${visibleGridSize.x}, ${cellSize}px)`;
   grid.map((rows, i) =>
     rows.map((col, k) => {
+      //cell with click listener
       let cell = document.createElement('div');
       cell.id = `${i}-${k}`;
       cell.className = `game-cell ${grid[i][k] ? 'active' : ''}`;
@@ -229,6 +230,14 @@ function createGridNode(grid) {
   return container;
 }
 
+// gets new positions of cells and calls repaint grid func
+function paintNewGrid() {
+  const oldGrid = visibleGrid;
+  calcVisibleZone();
+  repaintGrid(oldGrid, visibleGrid);
+}
+
+// changes the class of the cell if it's status have changed
 function repaintGrid(oldGrid, newGrid) {
   newGrid.forEach((rows, i) => {
     rows.forEach((cols, k) => {
@@ -264,7 +273,7 @@ function findCell(i, k) {
 }
 
 //get active, i.e. visible right now zone for the grid
-function getACtiveZone(grid, xStart, xLength, yStart, yLength) {
+function getVisibleZone(grid, xStart, xLength, yStart, yLength) {
   const zone = [];
   for (let i = yStart; i < yLength + yStart; i++) {
     zone.push(grid[i].slice(xStart, xLength + xStart));
